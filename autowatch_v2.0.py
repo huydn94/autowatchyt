@@ -12,9 +12,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from pytube import YouTube
 import threading
 from tkinter import messagebox
-#open new window
+
 
 time_count = 0
+
 #apply tham số
 def apply_info():
     global time_out, linklist, lenlinklist, number_of_tab
@@ -54,7 +55,7 @@ def open_new_window(url):
     global time_count
     time_count= time_count + watch_time
     print (time_count)
-    #messagebox.showinfo("Pop-up", "Thời gian đã chạy là "+str(time_count))
+
     time.sleep(watch_time)
     
 #open từng link
@@ -65,6 +66,7 @@ def open_main(thread_id):
     print(random_link)
     open_new_window(random_link)
     print(f"Thread {thread_id} completed.")
+    
 
 def watch_time_cr(url):
     #Tính thời gian xem video 25-99% thời lượng
@@ -72,15 +74,16 @@ def watch_time_cr(url):
     video_length = yt.length
     watch_time = (random.randint(25,99))*video_length//100
     return watch_time
-#close all chrome windows đã bật
-def close_all_chrome_windows():
-    chrome_processes = [proc for proc in psutil.process_iter() if proc.name() == "chrome.exe"]
+
+# #close all chrome windows đã bật
+# def close_all_chrome_windows():
+#     chrome_processes = [proc for proc in psutil.process_iter() if proc.name() == "chrome.exe"]
     
-    for proc in chrome_processes:
-        try:
-            proc.kill()
-        except psutil.NoSuchProcess:
-            pass
+#     for proc in chrome_processes:
+#         try:
+#             proc.kill()
+#         except psutil.NoSuchProcess:
+#             pass
 
 # def close_session_chrome(session_id):
 #     service_session = Service('path/to/chromedriver.exe')
@@ -94,10 +97,13 @@ def thread_open():
 
     # Create an initial pool of threads
     threads = []
+
     for i in range (number_of_tab):
         thread = threading.Thread(target=open_main, args=(i,))
         thread.start()
         threads.append(thread)
+        # time_label.config(text=f"thoi gian da chay {time_count}")
+        # parent.update_idletasks
 
     # Main thread keeps running to maintain the thread pool
     while True:
@@ -114,9 +120,9 @@ def thread_open():
             thread.start()
             threads.append(thread)
             print("New thread created.")
-
         
 if __name__ == "__main__":
+
     parent = Tk()
     parent.geometry('500x500')
 
@@ -136,6 +142,9 @@ if __name__ == "__main__":
 
     # def time_count_def():
     #     messagebox.showinfo("Pop-up", "Thời gian đã chạy là "+str(time_count))
+
+    time_label = tk.Label(parent, text="Processing...")
+    time_label.place(x = 100, y = 170)
 
     apply_button = ttk.Button(parent, text='Apply', command=apply_info).grid(row = 4, column = 0)
     run_button = ttk.Button(parent, text='run', command=thread_open).grid(row=4, column=1)
