@@ -1,7 +1,6 @@
 import time
 from tkinter import *
 from tkinter import ttk
-import psutil
 import random
 import tkinter as tk
 from selenium import webdriver
@@ -11,7 +10,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pytube import YouTube
 import threading
-from tkinter import messagebox
 
 
 time_count = 0
