@@ -16,9 +16,8 @@ time_count = 0
 
 #apply tham số
 def apply_info():
-    global time_out, linklist, lenlinklist, number_of_tab
+    global linklist, lenlinklist, number_of_tab
     number_of_tab = int(e4.get())
-    #time_out = int(e1.get())
     linklist_txt = str(e2.get())
     linklist = linklist_txt.split(",")
     lenlinklist = len(linklist)
@@ -53,7 +52,6 @@ def open_new_window(url):
     global time_count
     time_count= time_count + watch_time
     print (time_count)
-
     time.sleep(watch_time)
     
 #open từng link
@@ -121,32 +119,44 @@ def thread_open():
         
 if __name__ == "__main__":
 
-    parent = Tk()
-    parent.geometry('500x500')
+    def main_pro_1():
+        def check_time():
+            time_label.config(text=f"thoi gian da chay {time_count}")
+            newwindow.update_idletasks()  # Manually update the window
+        newwindow = Tk()
+        newwindow.geometry('500x500')
+        time_label = tk.Label(newwindow, text="Initial text")
+        time_label.place(x=100,y=200)
+        check_button = ttk.Button(newwindow, text='Check!', command=check_time).grid(row=4, column=1)
+        newwindow.mainloop()
+    def main_pro_2():
+        parent = Tk()
+        parent.geometry('500x500')
 
-    #Number of view
-    # view = Label(parent, text = "Max time").place(x = 30, y = 50)
-    # e1 = Entry(parent)
-    # e1.place(x = 100, y = 50)
+        #Number of view
+        # view = Label(parent, text = "Max time").place(x = 30, y = 50)
+        # e1 = Entry(parent)
+        # e1.place(x = 100, y = 50)
 
-    #list of link
-    link = Label(parent, text = "Link List").place(x = 30, y = 90)
-    e2 = Entry(parent)
-    e2.place(x = 100, y = 90)
-    
-    number_of_tab = Label(parent, text = "số tab").place(x = 30, y = 130)
-    e4 = Entry(parent)
-    e4.place(x = 100, y = 130)
+        #list of link
+        link = Label(parent, text = "Link List").place(x = 30, y = 90)
+        global e2
+        e2 = Entry(parent)
+        e2.place(x = 100, y = 90)
+        
+        number_of_tab = Label(parent, text = "số tab").place(x = 30, y = 130)
+        global e4
+        e4 = Entry(parent)
+        e4.place(x = 100, y = 130)
 
-    # def time_count_def():
-    #     messagebox.showinfo("Pop-up", "Thời gian đã chạy là "+str(time_count))
+        apply_button = ttk.Button(parent, text='Apply', command=apply_info).grid(row = 4, column = 0)
+        run_button = ttk.Button(parent, text='run', command=thread_open).grid(row=4, column=1)
+        #check_time_run = ttk.Button(parent, text='check time', command = time_count_def).grid(row =4 , column = 2)
+        #kill_button = ttk.Button(parent, text='close all', command=close_all_chrome_windows).grid(row=4, column=2)
 
-    time_label = tk.Label(parent, text="Processing...")
-    time_label.place(x = 100, y = 170)
+        parent.mainloop()
 
-    apply_button = ttk.Button(parent, text='Apply', command=apply_info).grid(row = 4, column = 0)
-    run_button = ttk.Button(parent, text='run', command=thread_open).grid(row=4, column=1)
-    #check_time_run = ttk.Button(parent, text='check time', command = time_count_def).grid(row =4 , column = 2)
-    #kill_button = ttk.Button(parent, text='close all', command=close_all_chrome_windows).grid(row=4, column=2)
-
-    parent.mainloop()
+    thread1= threading.Thread(target=main_pro_1)
+    thread2= threading.Thread(target=main_pro_2)
+    thread1.start()
+    thread2.start()
