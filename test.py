@@ -1,24 +1,27 @@
-import tkinter as tk
-import time
-def update_window():
-    # Update the label text or perform other UI updates here
-    time_label.config(text="Updating...")
+import os
+import platform
+import subprocess
 
-    # Call update_idletasks to force the updates to be displayed
-    root.update_idletasks()
-    # Schedule the next update after 1 second
-    root.after(1000, update_window)
+def ping(host):
+    """
+    Perform a ping to the specified host and return True if successful, False otherwise.
+    """
+    # Determine the operating system
+    command = ['ping', '-n', '1', '-w', '1000', host]
 
-# Create the root window
-root = tk.Tk()
-root.geometry('200x100')
 
-# Create a label
-time_label = tk.Label(root, text="Initial text")
-time_label.pack()
+    # Execute the ping command
+    try:
+        subprocess.check_output(command, stderr=subprocess.STDOUT)
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
-# Start the periodic update
-root.after(10000, update_window)
+# Example usage
+host = "8.8.8.8"
+result = ping(host)
 
-# Start the main event loop
-root.mainloop()
+if result:
+    print(f"Ping to {host} successful.")
+else:
+    print(f"Ping to {host} failed.")

@@ -10,7 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pytube import YouTube
 import threading
-
+import subprocess
+import re
+import os
 
 time_count = 0
 
@@ -118,7 +120,6 @@ def thread_open():
             print("New thread created.")
         
 if __name__ == "__main__":
-
     def main_pro_1():
         def check_time():
             time_label.config(text=f"thoi gian da chay {time_count}")
@@ -156,7 +157,37 @@ if __name__ == "__main__":
 
         parent.mainloop()
 
+
+    # def monitor_logs():
+    #     while True:
+    #         try:
+    #             # Run PowerShell command to get system event logs
+    #             powershell_command = r'Get-WinEvent -FilterHashtable @{ LogName = "Application"; Level = 2,3,4; StartTime = (Get-Date).AddMinutes(-1) } | Select-String -Pattern "indexed_db_factory\.cc\(582\)"'
+    #             logs = subprocess.check_output(['powershell', '-Command', powershell_command], universal_newlines=True)
+                
+    #             # Search for the specific log entry
+    #             if re.search(r"usb_service_win.cc:104", logs):
+    #                 print("Target log entry detected in system logs. Restarting the program...")
+                    
+    #                 # Terminate the current program process
+    #                 os._exit(0)
+                    
+    #                 # Start a new instance of the program using subprocess
+    #                 subprocess.Popen(["python", "your_program.py"])  # Replace "your_program.py" with your actual program name
+                    
+    #                 # Exit the current instance of the program
+    #                 return
+    #         except subprocess.CalledProcessError:
+    #             # Handle any error when running the command
+    #             print("Error occurred while retrieving system logs.")
+            
+    #         # Adjust the sleep duration based on your needs
+    #         time.sleep(60)  # Sleep for 1 minute before checking the logs again
+
+
     thread1= threading.Thread(target=main_pro_1)
     thread2= threading.Thread(target=main_pro_2)
+    # thread3= threading.Thread(target=monitor_logs) 
     thread1.start()
     thread2.start()
+    # thread3.start()
